@@ -2,8 +2,10 @@
 
 Mini project for the course IS1200 Datorteknik grundkurs.
 
-The project consist of making a PONG game for the Uno32 ChipKit.
+The project consists of making a PONG game for the Uno32 ChipKit.
 
 Project members:
     Jesper Jansson
     Wilhelm Nordgren
+
+PONG!
