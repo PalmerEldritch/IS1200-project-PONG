@@ -186,28 +186,28 @@ void display_init() {
 	delay(10);
 	DISPLAY_VDD_PORT &= ~DISPLAY_VDD_MASK;
 	delay(1000000);
-	
+
 	spi_send_recv(0xAE);
 	DISPLAY_RESET_PORT &= ~DISPLAY_RESET_MASK;
 	delay(10);
 	DISPLAY_RESET_PORT |= DISPLAY_RESET_MASK;
 	delay(10);
-	
+
 	spi_send_recv(0x8D);
 	spi_send_recv(0x14);
-	
+
 	spi_send_recv(0xD9);
 	spi_send_recv(0xF1);
-	
+
 	DISPLAY_VBATT_PORT &= ~DISPLAY_VBATT_MASK;
 	delay(10000000);
-	
+
 	spi_send_recv(0xA1);
 	spi_send_recv(0xC8);
-	
+
 	spi_send_recv(0xDA);
 	spi_send_recv(0x20);
-	
+
 	spi_send_recv(0xAF);
 }
 
@@ -217,7 +217,7 @@ void display_string(int line, char *s) {
 		return;
 	if(!s)
 		return;
-	
+
 	for(i = 0; i < 16; i++)
 		if(*s) {
 			textbuffer[line][i] = *s;
@@ -228,17 +228,17 @@ void display_string(int line, char *s) {
 
 void display_image(int x, const uint8_t *data) {
 	int i, j;
-	
+
 	for(i = 0; i < 4; i++) {
 		DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 		spi_send_recv(0x22);
 		spi_send_recv(i);
-		
+
 		spi_send_recv(x & 0xF);
 		spi_send_recv(0x10 | ((x >> 4) & 0xF));
-		
+
 		DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;
-		
+
 		for(j = 0; j < 32; j++)
 			spi_send_recv(~data[i*32 + j]);
 	}
@@ -251,17 +251,17 @@ void display_update() {
 		DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
 		spi_send_recv(0x22);
 		spi_send_recv(i);
-		
+
 		spi_send_recv(0x0);
 		spi_send_recv(0x10);
-		
+
 		DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;
-		
+
 		for(j = 0; j < 16; j++) {
 			c = textbuffer[i][j];
 			if(c & 0x80)
 				continue;
-			
+
 			for(k = 0; k < 8; k++)
 				spi_send_recv(font[c*8 + k]);
 		}
@@ -272,13 +272,13 @@ int main(void) {
 	/* Set up peripheral bus clock */
 	OSCCON &= ~0x180000;
 	OSCCON |= 0x080000;
-	
+
 	/* Set up output pins */
 	AD1PCFG = 0xFFFF;
 	ODCE = 0x0;
 	TRISECLR = 0xFF;
 	PORTE = 0x0;
-	
+
 	/* Output pins for display signals */
 	PORTF = 0xFFFF;
 	PORTG = (1 << 9);
@@ -286,33 +286,31 @@ int main(void) {
 	ODCG = 0x0;
 	TRISFCLR = 0x70;
 	TRISGCLR = 0x200;
-	
+
 	/* Set up input pins */
 	TRISDSET = (1 << 8);
 	TRISFSET = (1 << 1);
-	
+
 	/* Set up SPI as master */
 	SPI2CON = 0;
 	SPI2BRG = 4;
-	
+
 	/* Clear SPIROV*/
 	SPI2STATCLR &= ~0x40;
 	/* Set CKP = 1, MSTEN = 1; */
         SPI2CON |= 0x60;
-	
+
 	/* Turn on SPI */
 	SPI2CONSET = 0x8000;
-	
+
 	display_init();
 	display_string(0, "such world");
-	display_string(1, "much hello");
 	display_string(2, "many text");
 	display_string(3, "wow");
 	display_update();
-	
+
 	display_image(96, icon);
-	
+
 	for(;;) ;
 	return 0;
 }
-
