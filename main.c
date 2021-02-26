@@ -309,6 +309,7 @@ int main(void) {
 	display_string(2, "many text");
 	display_string(3, "wow");
 	display_string(3, "wow");
+	display_string(4, "much hello");
 	display_update();
 
 	display_image(96, icon);
