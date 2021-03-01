@@ -1,6 +1,7 @@
 #ifndef INIT_H
 #define INIT_H
 #include <stdint.h>
+#include <stdio.h>
 
 #define DISPLAY_VDD PORTFbits.RF6
 #define DISPLAY_VBATT PORTFbits.RF5
@@ -23,4 +24,7 @@ void pins_init(void);
 void display_init(void);
 uint8_t spi_send_recv(uint8_t data);
 void display_image(int x, const uint8_t *data);
+void draw_bit (int x, int y);
+void column_numbers (void);                         // Only used while working in the terminal
+void terminal_image(const unsigned char output[]);  // Only used while working in the terminal
 #endif
