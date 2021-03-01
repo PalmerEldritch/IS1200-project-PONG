@@ -3,6 +3,7 @@
 #include "init.h"
 // Initialization file
 
+
 //Setup from hello-display
 void pins_init (void){
   /* Set up peripheral bus clock */
@@ -34,8 +35,58 @@ void pins_init (void){
   /* Clear SPIROV*/
   SPI2STATCLR &= ~0x40;
   /* Set CKP = 1, MSTEN = 1; */
-        SPI2CON |= 0x60;
+  SPI2CON |= 0x60;
 
   /* Turn on SPI */
   SPI2CONSET = 0x8000;
+
+  // Set buttons as input
+  TRISDSET = 0xE0;
+  TRISFSET = 0x2;
+
+  //Initialize timer2
+  T2CON = 0;
+  T2CONSET = (0x7 << 4);
+  TMR2 = 0x0;
+  PR2 = 0x7A12;
+  IFSCLR(0) = 0x00000100;
+
+  //Enable timer2 interrupts
+  IECSET(0) = 0x00000100;
+  IPC(2) = 0x5;
+  enable_interrupt();
+
+
+  //Start timer2
+  T2CONSET = 0x8000;
+}
+
+void display_init() {
+	DISPLAY_COMMAND_DATA_PORT &= ~DISPLAY_COMMAND_DATA_MASK;
+	delay(10);
+	DISPLAY_VDD_PORT &= ~DISPLAY_VDD_MASK;
+	delay(1000000);
+
+	spi_send_recv(0xAE);
+	DISPLAY_RESET_PORT &= ~DISPLAY_RESET_MASK;
+	delay(10);
+	DISPLAY_RESET_PORT |= DISPLAY_RESET_MASK;
+	delay(10);
+
+	spi_send_recv(0x8D);
+	spi_send_recv(0x14);
+
+	spi_send_recv(0xD9);
+	spi_send_recv(0xF1);
+
+	DISPLAY_VBATT_PORT &= ~DISPLAY_VBATT_MASK;
+	delay(10000000);
+
+	spi_send_recv(0xA1);
+	spi_send_recv(0xC8);
+
+	spi_send_recv(0xDA);
+	spi_send_recv(0x20);
+
+	spi_send_recv(0xAF);
 }

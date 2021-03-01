@@ -2,7 +2,7 @@
 DEVICE		= 32MX320F128H
 
 # UART settings for programmer
-TTYDEV		?=/dev/ttyS2
+TTYDEV		?=/dev/tty.usbserial-A503WFDB
 TTYBAUD		?=115200
 
 # Name of the project
