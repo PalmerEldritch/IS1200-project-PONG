@@ -57,7 +57,7 @@ void delay(int cyc) {
 }
 
 int main (void) {
-    int x = 68, y = 23;
+    int x = 68, y = 24;
     // int z = 67, w = 22;
 
     column_numbers();
