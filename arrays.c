@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdint.h>
 #include <pic32mx.h>
 
 static unsigned char display_buffer [] = {
