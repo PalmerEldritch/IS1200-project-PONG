@@ -2,3 +2,5 @@
 *elf
 *.hex
 .deps
+.exe
+pic32mx.h
