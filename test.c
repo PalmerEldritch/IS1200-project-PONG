@@ -2,25 +2,19 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "init.h"
-#include "structs.c"
 #include "arrays.c"
-void draw_paddle (struct Paddle* p) {
-    int i;
-    for (i = 0; i < p->y_bottom; i++) {
-        draw_bit((p->x), i);
-    }
-}
 int main (void) {
-    struct Paddle p1;
+    Paddle p1;
 
     p1.paddle_id = 1;
     p1.x = 0;
     p1.y_top = 0;
-    p1.y_bottom = p1.y_top + 8;
-    printf("%d\n", display_buffer[0]);
-    draw_paddle(&p1);
-    
-    printf("%d", display_buffer[0]);
+    draw_paddle(p1);
+    printf("%x\n", display_buffer[0]);
+    clear_buffer(); 
+    p1.y_top = 1;
+    draw_paddle(p1);
+    printf("%x %x", display_buffer[0],display_buffer[128]);
     return 0;
 
 }
