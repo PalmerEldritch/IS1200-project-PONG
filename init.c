@@ -3,6 +3,10 @@
 #include "init.h"
 // Initialization file
 
+void delay(int cyc) {
+	int i;
+	for(i = cyc; i > 0; i--);
+}
 
 //Setup from hello-display
 void pins_init (void){
@@ -44,9 +48,16 @@ void pins_init (void){
   TRISDSET = 0xE0;
   TRISFSET = 0x2;
 
+
+
+
+
+}
+
+void timer_init (){
   //Initialize timer2
   T2CON = 0;
-  T2CONSET = (0x7 << 4);
+  T2CONSET = (0x4 << 4);
   TMR2 = 0x0;
   PR2 = 0x7A12;
   IFSCLR(0) = 0x00000100;
@@ -54,11 +65,10 @@ void pins_init (void){
   //Enable timer2 interrupts
   IECSET(0) = 0x00000100;
   IPC(2) = 0x5;
-  enable_interrupt();
-
 
   //Start timer2
   T2CONSET = 0x8000;
+
 }
 
 void display_init() {

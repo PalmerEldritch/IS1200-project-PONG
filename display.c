@@ -1,9 +1,8 @@
-#include "pic32mx.h"
+#include <pic32mx.h>
 #include <stdint.h>
 #include <stdio.h>
 #include "init.h"
-#include "structs.h"
-#include "arrays.c"
+
 /*
 	SPI send/recieve protocol
 */
@@ -30,7 +29,7 @@ void display_image(int x, const uint8_t *data) {
 		DISPLAY_COMMAND_DATA_PORT |= DISPLAY_COMMAND_DATA_MASK;
 
 		for(j = 0; j < 128; j++)
-			spi_send_recv(~data[i*128 + j]);
+			spi_send_recv(data[i*128 + j]);
 	}
 }
 
@@ -88,14 +87,9 @@ void display_image(int x, const uint8_t *data) {
 
 */
 
-void clear_buffer (void) {
+void clear_buffer (uint8_t *data) {
     int i;
     for(i = 0; i < 512; i++) {
-        display_buffer[i] = 0;
+        data[i] = 0;
     }
-}
-
-
-void draw_ball (Ball b){
-	draw_bit(b.x, b.y);
 }
