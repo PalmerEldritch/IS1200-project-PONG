@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "init.h"
+#include "structs.h"
+#include "arrays.c"
 /*
 	SPI send/recieve protocol
 */
@@ -33,17 +35,17 @@ void display_image(int x, const uint8_t *data) {
 }
 
 /*
-	For debuggning while working in the terminal. 
+	For debuggning while working in the terminal.
 	Adds column numbers above the diplay printout.
 */
-void column_numbers (void) {
+/*void column_numbers (void) {
     int i, j;
     for(i = 0; i < 3; i++) {
         printf("\t");
         for(j = 0; j < 128; j++) {
             if(i < 1) {
                 if(j < 100) {
-                    printf("  "); 
+                    printf("  ");
                 } else {
                     printf("%d ", j / 100);
                 }
@@ -52,7 +54,7 @@ void column_numbers (void) {
                     printf("  ");
                 } else {
                     printf("%d ", (j % 100) / 10);
-                } 
+                }
             } else {
                 printf("%d ", j % 10);
             }
@@ -61,9 +63,9 @@ void column_numbers (void) {
     }
 }
 /*
-	Modified version of display_image. Sends a printout of the data to the terminal instead of the on chip display. 
+	Modified version of display_image. Sends a printout of the data to the terminal instead of the on chip display.
 */
-void terminal_image(const unsigned char output[]) {
+/*void terminal_image(const unsigned char output[]) {
     int i, j, k, b, row = 0;
     for(i = 0; i < 4; i++) {
         for(j = 0; j < 8; j++) {
@@ -87,4 +89,9 @@ void draw_bit (int x, int y) {
     int p = y / 8, B = x + 128*p, b = y - 8*p;
     char c = 0x01 << b;
     display_buffer[B] = c;
+}
+
+
+void draw_ball (Ball b){
+	draw_bit(b.x, b.y);
 }
