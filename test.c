@@ -9,6 +9,7 @@ int main (void) {
     p1.paddle_id = 1;
     p1.x = 0;
     p1.y_top = 0;
+    
     draw_paddle(p1);
     printf("%x\n", display_buffer[0]);
     clear_buffer(); 
