@@ -1,43 +1,43 @@
-// #include <pic32mx.h>
-// #include <stdint.h>
-// #include "init.h"
-// #include "arrays.c"
-// extern void enable_interrupt();
-// //Global variables
-// int timeOutCount = 0;
+#include <pic32mx.h>
+#include <stdint.h>
+#include "init.h"
+#include "arrays.c"
+extern void enable_interrupt();
+//Global variables
+int timeOutCount = 0;
 
-// void delay(int cyc) {
-// 	int i;
-// 	for(i = cyc; i > 0; i--);
-// }
+void delay(int cyc) {
+	int i;
+	for(i = cyc; i > 0; i--);
+}
 
-// /* Interrupt Service Routine */
-// void user_isr( void )
-// {
-//   if(IFS(0) & 0x00000100)
-//   {
-//     timeOutCount++;
-//     IFSCLR(0) = 0x00000100;
-
-
-//     if(timeOutCount == 50)
-//     {
-// 			display_image(0, display_buffer);
-
-//     	timeOutCount = 0;
-//     }
-//   }
-// }
+/* Interrupt Service Routine */
+void user_isr( void )
+{
+  if(IFS(0) & 0x00000100)
+  {
+    timeOutCount++;
+    IFSCLR(0) = 0x00000100;
 
 
-// int main(void) {
+    if(timeOutCount == 50)
+    {
+			display_image(0, display_buffer);
 
-// 	pins_init();
-// 	display_init();
+    	timeOutCount = 0;
+    }
+  }
+}
 
 
-// 	display_image(0, splash_screen);
+int main(void) {
 
-// 	for(;;) ;
-// 	return 0;
-// }
+	pins_init();
+	display_init();
+
+
+	display_image(0, splash_screen);
+
+	for(;;) ;
+	return 0;
+}

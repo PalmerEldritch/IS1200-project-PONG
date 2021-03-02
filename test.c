@@ -1,8 +1,8 @@
-// #include <pic32mx.h>
 #include <stdint.h>
 #include <stdio.h>
 #include "init.h"
 #include "arrays.c"
+
 int main (void) {
     Paddle p1;
 
