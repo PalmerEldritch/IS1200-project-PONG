@@ -18,17 +18,30 @@
 #define DISPLAY_RESET_PORT PORTG
 #define DISPLAY_RESET_MASK 0x200
 
+// Structures
+typedef struct Paddle
+{
+    int paddle_id;
+    int x;
+    int y_top;
+}Paddle;
+
 //Define buttons
+
+// Functions declarations
 extern void enable_interrupt();
 
 void pins_init(void);
 void display_init(void);
 uint8_t spi_send_recv(uint8_t data);
 void display_image(int x, const uint8_t *data);
+void clear_buffer(void);
 void draw_bit (int x, int y);
 void draw_ball (Ball b);
 
 
+void column_numbers (void);                         // Only used while working in the terminal
+void draw_paddle (Paddle p);
 /*void column_numbers (void);                         // Only used while working in the terminal
 void terminal_image(const unsigned char output[]);  // Only used while working in the terminal
 */#endif
