@@ -3,4 +3,5 @@
 *.hex
 .deps
 .exe
+.vscode
 pic32mx.h
