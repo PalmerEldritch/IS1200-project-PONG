@@ -8,9 +8,9 @@ extern void enable_interrupt();
 int timeOutCount = 0;
 int framecounter = 0;
 int play_intro = 0;
-int go_to_menu = 0;
+int game_over = 0;
 int play_game = 1;
-//int const GAME_LENGTH = 11;
+int const GAME_LENGTH = 10;
 
 /* Structures for the ball and paddles */
 Ball b;
@@ -41,6 +41,16 @@ void user_isr(void)
 			timeOutCount = 0;
   		}
 	}
+
+	else if ((IFS(0) & 0x00000100) && (game_over == 1))
+	{
+		if(p1.score == GAME_LENGTH)
+		{
+			display_image(0, p1_win);
+		}else
+		{display_image(0, p2_win);
+		}
+	}
 }
 
 /* Takes x and y coordinates for a pixel on the screen and sets the corresponding bit in the display_buffer array */
@@ -59,7 +69,7 @@ void draw_score (Paddle p) {
     {
     case 1:
         for(i = 0; i < 8; i++) {
-            display_buffer[52 + i] = ~numbers[p.score * 8 + i];
+            display_buffer[52 + i] = numbers[p.score * 8 + i];
         }
         break;
 
@@ -68,7 +78,6 @@ void draw_score (Paddle p) {
             display_buffer[68 + i] = numbers[p.score * 8 + i];
         }
         break;
-
     default:
         break;
     }
@@ -85,6 +94,12 @@ void update_screen(uint8_t *data)
 	draw_ball(b);
   draw_score(p1);
 	draw_score(p2);
+
+	if((p1.score || p2.score) == GAME_LENGTH)
+	{
+		play_game = 0;
+		game_over = 1;
+	}
 }
 
 /* Plays the intro animation */
