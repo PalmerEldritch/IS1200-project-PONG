@@ -8,10 +8,9 @@ extern void enable_interrupt();
 /* Global variables */
 int timeOutCount = 0;
 int framecounter = 0;
-int menu_pointer = 0;
-int play_intro = 1;
+int play_intro = 0;
 int go_to_menu = 0;
-int play_game = 0;
+int play_game = 1;
 
 /* Structures for the ball and paddles */
 Ball b;
@@ -27,7 +26,7 @@ void user_isr(void)
 
 		if (timeOutCount > 10)
 		{
-			intro();
+//			intro();
 			timeOutCount = 0;
 		}
 	}
@@ -46,7 +45,7 @@ void user_isr(void)
 	{
 		IFSCLR(0) = 0x00000100;
 		timeOutCount++;
-		if(timeOutCount > 1) {
+		if(timeOutCount > 2) {
 			display_image(0, display_buffer);
 			update_game(display_buffer);
 			timeOutCount = 0;
