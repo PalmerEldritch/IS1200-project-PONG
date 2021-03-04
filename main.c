@@ -7,10 +7,10 @@ extern void enable_interrupt();
 /* Global variables */
 int timeOutCount = 0;
 int framecounter = 0;
-int play_intro = 0;
+int play_intro = 1;
 int game_over = 0;
-int play_game = 1;
-int const GAME_LENGTH = 10;
+int play_game = 0;
+int game_length = 10;
 
 /* Structures for the ball and paddles */
 Ball b;
@@ -26,7 +26,7 @@ void user_isr(void)
 
 		if (timeOutCount > 10)
 		{
-			// intro();
+		 	intro();
 			timeOutCount = 0;
 		}
 		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
@@ -35,7 +35,12 @@ void user_isr(void)
 	{
 		IFSCLR(0) = 0x00000100;
 		timeOutCount++;
-		if(timeOutCount > 2) {
+		if(timeOutCount > 1) {
+			if((p1.score == game_length) || (p2.score == game_length))
+			{
+				play_game = 0;
+				game_over = 1;
+			}
 			display_image(0, display_buffer);
 			update_screen(display_buffer);
 			timeOutCount = 0;
@@ -44,11 +49,11 @@ void user_isr(void)
 
 	else if ((IFS(0) & 0x00000100) && (game_over == 1))
 	{
-		if(p1.score == GAME_LENGTH)
+		if(p1.score == game_length)
 		{
 			display_image(0, p1_win);
-		}else
-		{display_image(0, p2_win);
+		}else{
+			display_image(0, p2_win);
 		}
 	}
 }
@@ -95,28 +100,24 @@ void update_screen(uint8_t *data)
   draw_score(p1);
 	draw_score(p2);
 
-	if((p1.score || p2.score) == GAME_LENGTH)
-	{
-		play_game = 0;
-		game_over = 1;
-	}
+
 }
 
 /* Plays the intro animation */
-// void intro(void)
-// {
-// 	if (framecounter < 30)
-// 	{
-// 		display_image(0, intro_frames[framecounter]);
-// 		framecounter++;
-// 	}
-// 	else
-// 	{
-// 		framecounter = 0;
-// 		play_intro = 0;
-// 		play_game = 1;
-// 	}
-// }
+void intro(void)
+{
+	if (framecounter < 30)
+	{
+		display_image(0, intro_frames[framecounter]);
+		framecounter++;
+	}
+	else
+	{
+		framecounter = 0;
+		play_intro = 0;
+		play_game = 1;
+	}
+}
 
 int main(void)
 {
