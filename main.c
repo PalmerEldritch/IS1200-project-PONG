@@ -35,7 +35,7 @@ void user_isr(void)
 	{
 		IFSCLR(0) = 0x00000100;
 		timeOutCount++;
-		if(timeOutCount > 1) {
+		if(timeOutCount > 2) {
 			display_image(0, display_buffer);
 			update_game(display_buffer);
 			timeOutCount = 0;
