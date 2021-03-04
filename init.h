@@ -32,6 +32,7 @@ void draw_ball (Ball b);
 void move_ball(Ball *b, Paddle *p1, Paddle *p2);
 void update_screen (uint8_t *data);
 void draw_paddle (Paddle p);
+void draw_score (Paddle p);
 void timer_init();
 void move_paddle_p1(Paddle *p);
 void move_paddle_p2 (Paddle *p);

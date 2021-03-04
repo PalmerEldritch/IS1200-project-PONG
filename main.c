@@ -25,7 +25,7 @@ void user_isr(void)
 
 		if (timeOutCount > 10)
 		{
-//			intro();
+			// intro();
 			timeOutCount = 0;
 		}
 		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
@@ -52,6 +52,26 @@ void draw_bit(float x, float y)
 	display_buffer[B] = display_buffer[B] | c;
 }
 
+void draw_score (Paddle p) {
+    int i;
+    switch (p.id)
+    {
+    case 1:
+        for(i = 0; i < 8; i++) {
+            display_buffer[52 + i] = ~numbers[p.score * 8 + i];
+        }
+        break;
+    
+    case 2:
+        for(i = 0; i < 8; i++) {
+            display_buffer[68 + i] = numbers[p.score * 8 + i];
+        }
+        break;
+
+    default:
+        break;
+    }
+}
 /* Updates the screen while in game mode */
 void update_screen(uint8_t *data)
 {
@@ -62,6 +82,8 @@ void update_screen(uint8_t *data)
 	draw_paddle(p1);
 	draw_paddle(p2);
 	draw_ball(b);
+    draw_score(p1);
+	draw_score(p2);
 }
 
 /* Plays the intro animation */
@@ -91,10 +113,14 @@ int main(void)
 	/* Setup start positions for the ball and paddles */
 	b.x = 64;
 	b.y = 16;
+	p1.id = 1;
 	p1.x = 0;
 	p1.y_top = 12;
+	p1.score = 0;
+	p2.id = 2;
 	p2.x = 127;
 	p2.y_top = 15;
+	p2.score = 0;
 
 	for (;;)
 	return 0;

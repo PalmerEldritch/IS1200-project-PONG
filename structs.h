@@ -4,9 +4,10 @@
 // Structures
 typedef struct Paddle
 {
+    int id;
     float x;
     float y_top;
-
+    int score;
 }Paddle;
 
 typedef struct Ball{
