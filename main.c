@@ -1,5 +1,6 @@
 #include <pic32mx.h>
 #include <stdint.h>
+#include <stdio.h>
 #include "init.h"
 
 extern void enable_interrupt();
@@ -7,6 +8,7 @@ extern void enable_interrupt();
 /* Global variables */
 int timeOutCount = 0;
 int framecounter = 0;
+int menu_pointer = 0;
 int play_intro = 1;
 int go_to_menu = 0;
 int play_game = 0;
@@ -28,9 +30,18 @@ void user_isr(void)
 			intro();
 			timeOutCount = 0;
 		}
-		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
 	}
+ 	else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) 
+	{
+		IFSCLR(0) = 0x00000100;
+		timeOutCount++;
 
+		if (timeOutCount > 10)
+		{
+			menu();
+			timeOutCount = 0;
+		}
+	}
 	else if ((IFS(0) & 0x00000100) && (play_game == 1))
 	{
 		IFSCLR(0) = 0x00000100;
@@ -70,15 +81,56 @@ void intro(void)
 {
 	if (framecounter < 30)
 	{
-		display_image(0, intro_frames[framecounter]);
+		// display_image(0, intro_frames[framecounter]);
 		framecounter++;
 	}
 	else
 	{
 		framecounter = 0;
 		play_intro = 0;
-		play_game = 1;
+		go_to_menu = 1;
 	}
+}
+
+/* Menu */
+void menu( void ) 
+{
+	char menu_selected[2][3] = { {'-', '-', '>'}, {' ', ' ', ' '} };
+	char menu_items[3][9] = {
+		{'1',  ' ', 'P', 'l', 'a', 'y', 'e', 'r', ' ',},
+		{'2',  ' ', 'P', 'l', 'a', 'y', 'e', 'r', ' ',},
+		{'H', 'i', 'g', 'h', 's', 'c', 'o', 'r', 'e', },
+	};
+
+	display_string(0, 0, menu_selected[0]);
+	display_string(0, 3, menu_items[0]);
+	
+	display_string(1, 0, menu_selected[1]);
+	display_string(1, 3, menu_items[1]);
+	
+	display_string(2, 0, menu_selected[1]);
+	display_string(2, 3, menu_items[2]);
+
+	while(btn2() != 1) {
+		if(btn4() && menu_pointer > 0) {
+			menu_pointer--;
+			display_string(menu_pointer, 0, menu_selected[0]);
+			display_string(menu_pointer, 3, menu_items[menu_pointer]);
+			display_string(menu_pointer + 1, 0, menu_selected[1]);
+			display_string(menu_pointer, 3, menu_items[menu_pointer + 1]);
+		}
+		if(btn3() && menu_pointer < 2) {
+			menu_pointer++;
+			display_string(menu_pointer, 0, menu_selected[0]);
+			display_string(menu_pointer, 3, menu_items[menu_pointer]);
+			display_string(menu_pointer - 1, 0, menu_selected[1]);
+			display_string(menu_pointer, 3, menu_items[menu_pointer - 1]);
+		}
+		display_update(); 
+	}
+
+	go_to_menu = 0;
+	play_game = 1;
 }
 
 int main(void)
