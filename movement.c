@@ -33,10 +33,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
       else{
         k = k * (((p2y + 8) - (b->y)) / 4);
       }
-    }else if()
-
-
-    else{
+    }else{
       b->x = 64;
       b->y = 16;
       p1_score++;

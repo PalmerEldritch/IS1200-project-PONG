@@ -7,9 +7,9 @@ extern void enable_interrupt();
 /* Global variables */
 int timeOutCount = 0;
 int framecounter = 0;
-int play_intro = 1;
+int play_intro = 0;
 int go_to_menu = 0;
-int play_game = 0;
+int play_game = 1;
 
 /* Structures for the ball and paddles */
 Ball b;
@@ -25,7 +25,7 @@ void user_isr(void)
 
 		if (timeOutCount > 10)
 		{
-			intro();
+//			intro();
 			timeOutCount = 0;
 		}
 		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
@@ -66,20 +66,20 @@ void update_game(uint8_t *data)
 }
 
 /* Plays the intro animation */
-void intro(void)
-{
-	if (framecounter < 30)
-	{
-		display_image(0, intro_frames[framecounter]);
-		framecounter++;
-	}
-	else
-	{
-		framecounter = 0;
-		play_intro = 0;
-		play_game = 1;
-	}
-}
+// void intro(void)
+// {
+// 	if (framecounter < 30)
+// 	{
+// 		display_image(0, intro_frames[framecounter]);
+// 		framecounter++;
+// 	}
+// 	else
+// 	{
+// 		framecounter = 0;
+// 		play_intro = 0;
+// 		play_game = 1;
+// 	}
+// }
 
 int main(void)
 {
