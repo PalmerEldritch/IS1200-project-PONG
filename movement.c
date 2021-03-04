@@ -49,10 +49,10 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
         direction = direction * -1;
         if(k > 0)
         {
-        k = k * (((b->y) - p2y) / 4);
+        k = k * (((b->y) - p1y) / 4);
         }
         else{
-          k = k * (((p2y + 8) - (b->y)) / 4);
+          k = k * (((p1y + 8) - (b->y)) / 4);
         }
       }else{
         b->x = 64;
