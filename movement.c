@@ -39,7 +39,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
     else{
       b->x = 64;
       b->y = 16;
-      p1_score++:
+      p1_score++;
       delay(8000000);
     }
   }
@@ -60,7 +60,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
       }else{
         b->x = 64;
         b->y = 16;
-        p2_score++:
+        p2_score++;
         delay(8000000);
       }
     }
