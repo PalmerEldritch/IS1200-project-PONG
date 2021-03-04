@@ -30,14 +30,13 @@ void user_isr(void)
 		}
 		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
 	}
-
 	else if ((IFS(0) & 0x00000100) && (play_game == 1))
 	{
 		IFSCLR(0) = 0x00000100;
 		timeOutCount++;
 		if(timeOutCount > 1) {
 			display_image(0, display_buffer);
-			update_game(display_buffer);
+			update_screen(display_buffer);
 			timeOutCount = 0;
   		}
 	}
@@ -54,7 +53,7 @@ void draw_bit(float x, float y)
 }
 
 /* Updates the screen while in game mode */
-void update_game(uint8_t *data)
+void update_screen(uint8_t *data)
 {
 	clear_buffer(data);
 	move_ball(&b, &p1, &p2);
