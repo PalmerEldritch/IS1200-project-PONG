@@ -5,6 +5,8 @@
 
 int direction = 1;
 float k = 1;
+int p1_score = 0, p2_score = 0;
+
 void move_ball (Ball *b, Paddle *p1, Paddle *p2)
 {
   int p1y = p1->y_top;
@@ -16,6 +18,8 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
   }
 
 // Check if ball will bounce on paddle2
+
+
   if((b->x == 126) && (direction == 1))
   {
     if(((b->y) >= (p2->y_top)) && ((b->y) <= (p2->y_top) + 8))
@@ -29,9 +33,13 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
       else{
         k = k * (((p2y + 8) - (b->y)) / 4);
       }
-    }else{
+    }else if()
+
+
+    else{
       b->x = 64;
       b->y = 16;
+      p1_score++:
       delay(8000000);
     }
   }
@@ -52,6 +60,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
       }else{
         b->x = 64;
         b->y = 16;
+        p2_score++:
         delay(8000000);
       }
     }
