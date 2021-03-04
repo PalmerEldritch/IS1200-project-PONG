@@ -6,7 +6,6 @@
 int direction = 1;
 float k = 1;
 
-
 void move_ball (Ball *b, Paddle *p1, Paddle *p2)
 {
   int p1y = p1->y_top;
@@ -39,8 +38,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
       b->x = 64;
       b->y = 16;
       k = 1;
-      p1_score++;
-
+      p1->score = p1->score + 1;
       delay(8000000);
     }
   }
@@ -64,7 +62,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
         b->x = 64;
         b->y = 16;
         k = 1;
-        p2_score++;
+        p2->score = p2->score + 1;
         delay(8000000);
       }
     }
