@@ -10,6 +10,7 @@ int framecounter = 0;
 int play_intro = 0;
 int go_to_menu = 0;
 int play_game = 1;
+//int const GAME_LENGTH = 11;
 
 /* Structures for the ball and paddles */
 Ball b;
@@ -63,6 +64,12 @@ void update_game(uint8_t *data)
 	draw_paddle(p1);
 	draw_paddle(p2);
 	draw_ball(b);
+
+//	if((p1.score || p2.score) == GAME_LENGTH)
+	{
+
+
+	}
 }
 
 /* Plays the intro animation */

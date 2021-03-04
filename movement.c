@@ -5,7 +5,7 @@
 
 int direction = 1;
 float k = 1;
-int p1_score = 0, p2_score = 0;
+
 
 void move_ball (Ball *b, Paddle *p1, Paddle *p2)
 {
