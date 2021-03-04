@@ -3,10 +3,6 @@
 #include "init.h"
 
 /*
-	Takes two integera as x,y-coordinates and draws the corresponding pixel to the display_buffer array.
-*/
-
-/*
 	Draws a paddle to the display_buffer array.
 */
 void draw_paddle (Paddle p) {
@@ -16,6 +12,27 @@ void draw_paddle (Paddle p) {
     }
 }
 
-void draw_ball (Ball b){
+void draw_ball (Ball b) {
 	draw_bit(b.x, b.y);
+}
+
+void draw_score (int p, int n) {
+    int i;
+    switch (p)
+    {
+    case 1:
+        for(i = 0; i < 8; i++) {
+            display_buffer[52 + i] = numbers[n * 8 + i];
+        }
+        break;
+    
+    case 2:
+        for(i = 0; i < 8; i++) {
+            display_buffer[68 + i] = numbers[n * 8 + i];
+        }
+        break;
+
+    default:
+        break;
+    }
 }

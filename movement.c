@@ -62,7 +62,7 @@ void move_ball (Ball *b, Paddle *p1, Paddle *p2)
 }
 void move_paddle_p1 (Paddle *p)
 {
-  if(btn4() && (p->y_top) > 0){
+  if(btn4() && (p->y_top) > 0){ 
     p->y_top = (p->y_top) - 1;
   }
   else if(btn3() && (p->y_top) < 24){
