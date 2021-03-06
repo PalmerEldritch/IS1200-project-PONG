@@ -1,7 +1,9 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
-// Structures
+/*
+  Structure definitions for the paddles and ball
+*/
 typedef struct Paddle
 {
     int id;
@@ -14,7 +16,5 @@ typedef struct Ball{
   float x;
   float y;
 }Ball;
-
-
 
 #endif

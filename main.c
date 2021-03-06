@@ -26,17 +26,17 @@ void user_isr(void)
 
 		if (timeOutCount > 10)
 		{
-		 	intro();
+			intro();
 			timeOutCount = 0;
 		}
-		//   } else if ((IFS(0) & 0x00000100) && (go_to_menu == 1)) {				// Lägg till meny här!
 	}
 	else if ((IFS(0) & 0x00000100) && (play_game == 1))
 	{
 		IFSCLR(0) = 0x00000100;
 		timeOutCount++;
-		if(timeOutCount > 1) {
-			if((p1.score == game_length) || (p2.score == game_length))
+		if (timeOutCount > 1)
+		{
+			if ((p1.score == game_length) || (p2.score == game_length))
 			{
 				play_game = 0;
 				game_over = 1;
@@ -44,21 +44,24 @@ void user_isr(void)
 			display_image(0, display_buffer);
 			update_screen(display_buffer);
 			timeOutCount = 0;
-  		}
+		}
 	}
-
 	else if ((IFS(0) & 0x00000100) && (game_over == 1))
 	{
-		if(p1.score == game_length)
+		if (p1.score == game_length)
 		{
 			display_image(0, p1_win);
-		}else{
+		}
+		else
+		{
 			display_image(0, p2_win);
 		}
 	}
 }
 
-/* Takes x and y coordinates for a pixel on the screen and sets the corresponding bit in the display_buffer array */
+/* 
+	Takes x and y coordinates for a pixel on the screen and sets the corresponding bit in the display_buffer array
+*/
 void draw_bit(float x, float y)
 {
 	x = (int)x;
@@ -68,26 +71,35 @@ void draw_bit(float x, float y)
 	display_buffer[B] = display_buffer[B] | c;
 }
 
-void draw_score (Paddle p) {
-    int i;
-    switch (p.id)
-    {
-    case 1:
-        for(i = 0; i < 8; i++) {
-            display_buffer[52 + i] = numbers[p.score * 8 + i];
-        }
-        break;
+/* 
+	Draws the current score of the designated player to the display_buffer array
+*/
+void draw_score(Paddle p)
+{
+	int i;
+	switch (p.id)
+	{
+	case 1:
+		for (i = 0; i < 8; i++)
+		{
+			display_buffer[52 + i] = numbers[p.score * 8 + i];
+		}
+		break;
 
-    case 2:
-        for(i = 0; i < 8; i++) {
-            display_buffer[68 + i] = numbers[p.score * 8 + i];
-        }
-        break;
-    default:
-        break;
-    }
+	case 2:
+		for (i = 0; i < 8; i++)
+		{
+			display_buffer[68 + i] = numbers[p.score * 8 + i];
+		}
+		break;
+	default:
+		break;
+	}
 }
-/* Updates the screen while in game mode */
+
+/* 
+	Updates the screen while in game mode
+*/
 void update_screen(uint8_t *data)
 {
 	clear_buffer(data);
@@ -97,13 +109,13 @@ void update_screen(uint8_t *data)
 	draw_paddle(p1);
 	draw_paddle(p2);
 	draw_ball(b);
-  draw_score(p1);
+	draw_score(p1);
 	draw_score(p2);
-
-
 }
 
-/* Plays the intro animation */
+/* 
+	Draws the intro animation frames to the display_buffer array, incrementally, one every cycle 
+*/
 void intro(void)
 {
 	if (framecounter < 30)
@@ -121,13 +133,17 @@ void intro(void)
 
 int main(void)
 {
-	/* Run initialization of pins, display and timers */
+	/* 
+		Run initialization of pins, display and timers
+	*/
 	pins_init();
 	display_init();
 	timer_init();
 	enable_interrupt();
 
-	/* Setup start positions for the ball and paddles */
+	/* 
+		Setup start positions for the ball and paddles
+	*/
 	b.x = 64;
 	b.y = 16;
 	p1.id = 1;
@@ -140,5 +156,5 @@ int main(void)
 	p2.score = 0;
 
 	for (;;)
-	return 0;
+		return 0;
 }

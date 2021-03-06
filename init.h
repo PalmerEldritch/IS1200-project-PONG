@@ -6,6 +6,9 @@
 #include "arrays.c"
 #include "intro.c"
 
+/*
+    Defines
+*/
 #define DISPLAY_VDD PORTFbits.RF6
 #define DISPLAY_VBATT PORTFbits.RF5
 #define DISPLAY_COMMAND_DATA PORTFbits.RF4
@@ -19,7 +22,9 @@
 #define DISPLAY_RESET_PORT PORTG
 #define DISPLAY_RESET_MASK 0x200
 
-/* Function declarations */
+/*
+    Function declarations 
+*/
 extern void enable_interrupt();
 void delay(int cyc);
 void pins_init(void);
